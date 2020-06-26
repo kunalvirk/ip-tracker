@@ -3,8 +3,15 @@ const { PORT } = require('./config/config');
 const getResults = require('./scrapper');
 
 app.get("/", async (req, res) => {
+
+    const ip = req.headers['x-forwarded-for'] || 
+     req.connection.remoteAddress || 
+     req.socket.remoteAddress ||
+     (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
     return res.json({
-        message : "IP2Location by CodeVirk"
+        message : "IP2Location by CodeVirk",
+        incomingIP : JSON.stringify(ip)
     });
 });
 
